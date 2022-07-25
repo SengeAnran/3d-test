@@ -35,7 +35,8 @@ export default {
 
     svg.selectAll('rect')
       .data(this.arr)
-      .enter().append('rect')
+      // .enter().append('rect')
+      .join('rect')
       .attr('height', rectHeight)
       .attr('width', (d) => {
         return scale(d);
