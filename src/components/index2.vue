@@ -1,21 +1,21 @@
 <template>
-  <div class="hello">
-    {{name}}
+  <div>
+    <h1>Knowledge Graph</h1>
     <svg width="960" height="600"></svg>
   </div>
 </template>
-
-
 <script>
 import * as d3 from 'd3'
 export default {
-  data() {
-    return {}
+  data () {
+    return {
+    }
   },
-  mounted() {
-    let svg = d3.select('svg');
-    let width = +svg.attr('width');
-    let height = +svg.attr('height');
+  mounted () {
+    let svg = d3.select('svg')
+    let width = +svg.attr('width')
+    let height = +svg.attr('height')
+
     let nodesData = [
       { 'name': 'Lillian', 'sex': 'F' },
       { 'name': 'Gordon', 'sex': 'M' },
@@ -34,28 +34,8 @@ export default {
       { 'name': 'Infante', 'sex': 'M' },
       { 'name': 'Percy', 'sex': 'M' },
       { 'name': 'Cynthia', 'sex': 'F' }
-    ];
-    let simulation = d3.forceSimulation().nodes(nodesData)
-    simulation
-      .force('charge_force', d3.forceManyBody())
-      .force('center_force', d3.forceCenter(width / 2, height / 2));
-    let node = svg.append('g')
-      .attr('class', 'nodes')
-      .selectAll('circle')
-      .data(nodesData)
-      .enter()
-      .append('circle')
-      .attr('r', 10)
-      .attr('fill', this.circleColor);
-    // 每次作出举动时需要更新节点位置
-    simulation.on('tick', tickAction)
+    ]
 
-    function tickAction () {
-      node
-        .attr('cx', (d) => { return d.x })
-        .attr('cy', (d) => { return d.y })
-    }
-    // 添加连线，指定链接数据
     let linksData = [
       { 'source': 'Sylvester', 'target': 'Gordon', 'type': 'A' },
       { 'source': 'Sylvester', 'target': 'Lillian', 'type': 'A' },
@@ -82,13 +62,43 @@ export default {
       { 'source': 'Cynthia', 'target': 'Sylvester', 'type': 'E' },
       { 'source': 'Cynthia', 'target': 'Jamie', 'type': 'E' },
       { 'source': 'Mauer', 'target': 'Jessie', 'type': 'E' }
-    ];
-    // 创建链接力
+    ]
+
+    let simulation = d3.forceSimulation()
+      .nodes(nodesData)
+
+    simulation
+      .force('charge_force', d3.forceManyBody())
+      .force('center_force', d3.forceCenter(width / 2, height / 2))
+
+    let node = svg.append('g')
+      .attr('class', 'nodes')
+      .selectAll('circle')
+      .data(nodesData)
+      .enter()
+      .append('circle')
+      .attr('r', 10)
+      .attr('fill', this.circleColor)
+
+    simulation.on('tick', tickAction)
+
+    function tickAction () {
+      node
+        .attr('cx', (d) => { return d.x })
+        .attr('cy', (d) => { return d.y })
+
+      link
+        .attr('x1', (d) => { return d.source.x })
+        .attr('y1', (d) => { return d.source.y })
+        .attr('x2', (d) => { return d.target.x })
+        .attr('y2', (d) => { return d.target.y })
+    }
+
     let linkForce = d3.forceLink(linksData)
-      .id((d) => { return d.name });
-    // 把链接力添加到模拟器中
-    simulation.force('links', linkForce);
-    //在页面绘制链接
+      .id((d) => { return d.name })
+
+    simulation.force('links', linkForce)
+
     let link = svg.append('g')
       .attr('class', 'links')
       .selectAll('line')
@@ -96,14 +106,7 @@ export default {
       .enter()
       .append('line')
       .attr('stroke-width', 2)
-      .style('stroke', this.linkColor);
-    // 在 tickAction 函数中更新链接位置
-    link
-      .attr('x1', (d) => { return d.source.x })
-      .attr('y1', (d) => { return d.source.y })
-      .attr('x2', (d) => { return d.target.x })
-      .attr('y2', (d) => { return d.target.y })
-
+      .style('stroke', this.linkColor)
   },
   methods: {
     circleColor (d) {
@@ -119,14 +122,10 @@ export default {
       } else {
         return 'red'
       }
-    },
+    }
   }
 }
 </script>
-
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-
 <style scoped>
 svg {
   border: 1px solid #ccc;
@@ -140,12 +139,5 @@ svg {
 .nodes circle {
   stroke: #fff;
   stroke-width: 1.5px;
-}
-</style>
-<style lang="scss" scoped>
-.hello {
-  svg {
-
-  }
 }
 </style>
