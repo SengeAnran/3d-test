@@ -50,7 +50,7 @@
             .attr("transform", d => `translate(${d.y},${d.x})`);*/
 
             g.selectAll('circle').data(root.descendants()).join('circle')
-            // optionally, we can use stroke-linejoin to beautify the path connection; 
+            // optionally, we can use stroke-linejoin to beautify the path connection;
             //.attr("stroke-linejoin", "round")
             .attr("stroke-width", 3)
             .attr("fill", fill)
@@ -60,7 +60,7 @@
 
             g.selectAll('text').data(root.descendants()).join('text')
             .attr("text-anchor", d => d.children ? "end" : "start")
-            // note that if d is a child, d.children is undefined which is actually false! 
+            // note that if d is a child, d.children is undefined which is actually false!
             .attr('x', d => d.x)
             .attr('y', d => d.y + (d.children ? -10 : 10))
             .text(d => d.data.name)

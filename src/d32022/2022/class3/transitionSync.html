@@ -62,7 +62,7 @@
                 data.forEach(d => {
                     d.value = Math.random() * 20;
                 });
-                let transition = d3.transition().duration(1000)//.ease(d3.easeElastic);
+                let transition = d3.transition().duration(2000)//.ease(d3.easeElastic);
 
                 rects.transition(transition) 
                 .attr('width', d => xScale(d.value))

@@ -1,5 +1,6 @@
 <template>
 <div class="main">
+  <div class="test" style="width: 300px; height: 400px; background-color: pink"></div>
  <svg></svg>
 </div>
 </template>
@@ -9,6 +10,10 @@ import * as d3 from 'd3';
 export default {
   name: 'index',
   mounted() {
+    const test = d3.select('.test');
+    test.on('click', function (e) {
+      console.log(e.path[e.path.length - 1].location.href);
+    });
     const naiveKeys = ['香蕉', '苹果', '葡萄', '桃子']
     const color = d3.scaleOrdinal().domain(naiveKeys).range(d3.schemeSet3);
     console.log(color('苹果'));

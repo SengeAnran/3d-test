@@ -59,7 +59,7 @@
                 d.value = Math.random() * 20;
             });
             let transition = d3.transition().ease(d3.easeCubic)//.ease(d3.easeLinear) // we can optionally alter 'ease'; 
-            .duration(1000);
+            .duration(4000);
             rects.transition(transition) 
             .attr('width', d => xScale(d.value))
             .attr('fill', () => d3.interpolateRainbow(Math.random()));
@@ -67,7 +67,9 @@
             .attr('x', d => xScale(d.value))
             .tween("text", function(d) {
                 var i = d3.interpolate(this.textContent, d.value);
+              console.log(this)
                 return function(t) {
+
                     this.textContent = formatPercent(i(t));
                 };
             });
